@@ -22,7 +22,7 @@ import {
   FormValidator,
   ModelConversionTool
 } from './utils';
-import { AutoFields, AutoForm } from 'uniforms-unstyled';
+import { AutoFields, AutoForm } from 'uniforms-patternfly';
 
 export interface Props {
   formSchema: any;
@@ -53,7 +53,7 @@ const FormRenderer: React.FC<Props> = ({ formSchema, readOnly }) => {
       showInlineError={true}
       role={'form'}
     >
-      <AutoFields autoField={} />
+      <AutoFields />
     </AutoForm>
   );
 };
