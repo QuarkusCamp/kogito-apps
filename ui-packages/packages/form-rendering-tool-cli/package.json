@@ -1,5 +1,5 @@
 {
-  "name": "@kogito-apps/form-renderer",
+  "name": "@kogito-apps/form-rendering-tool-cli",
   "version": "1.0.0",
   "description": "",
   "license": "Apache-2.0",
@@ -9,7 +9,7 @@
     "precommit": "lint-staged",
     "build": "tsc -m commonjs --outDir ./dist && webpack --config webpack.prod.js",
     "build:watch": "tsc -m commonjs --outDir ./dist -w && webpack --config webpack.dev.js --watch",
-    "build:prod": "yarn run clean && yarn run lint && yarn run build",
+    "build:prod": "yarn run clean && yarn run lint && yarn run build && pkg dist/index.js",
     "test:report": "yarn test --ci --reporters=jest-junit",
     "test": "jest --runInBand --ci --reporters=default --reporters=jest-junit",
     "update-snapshot": "jest --updateSnapshot",
@@ -20,12 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kiegroup/kogito-tooling.git"
+    "url": "https://github.com/kiegroup/kogito-apps.git"
   },
   "dependencies": {
-    "uniforms": "3.0.0",
-    "uniforms-bridge-json-schema": "3.0.0",
-    "uniforms-patternfly": "4.4.1"
+    "@kogito-apps/form-rendering-tool": "1.0.0",
+    "pkg": "^5.1.0",
+    "yargs": "^17.0.1"
   },
   "devDependencies": {
     "lodash": "^4.14.2"
@@ -68,5 +68,12 @@
       "yarn run format",
       "yarn run lint"
     ]
+  },
+  "pkg": {
+    "scripts": "src/**/*.ts",
+    "targets": [
+      "node14-linux-arm64"
+    ],
+    "outputPath": "dist"
   }
 }

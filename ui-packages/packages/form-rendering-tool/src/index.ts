@@ -14,25 +14,5 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-import JSONSchemaBridge from 'uniforms-bridge-json-schema';
-import { AutoFields, AutoForm } from 'uniforms-patternfly';
-
-export interface Props {
-  formSchema: any;
-}
-
-const FormRenderer: React.FC<Props> = ({ formSchema }) => {
-  return (
-    <AutoForm
-      placeholder={true}
-      schema={new JSONSchemaBridge(formSchema, formModel => true)}
-      showInlineError={true}
-      role={'form'}
-    >
-      <AutoFields />
-    </AutoForm>
-  );
-};
-
-export default FormRenderer;
+export { HTMLForm } from './rendering/Api';
+export { FormRenderingFactory } from './rendering/FormRenderingFactory';

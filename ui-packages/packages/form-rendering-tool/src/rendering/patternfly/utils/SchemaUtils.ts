@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-import JSONSchemaBridge from 'uniforms-bridge-json-schema';
-import { AutoFields, AutoForm } from 'uniforms-patternfly';
+import jp from 'jsonpath';
+import set from 'lodash/set';
+import HTMLSelectField from '../component/HTMLSelectField';
 
-export interface Props {
-  formSchema: any;
+export function prepareUniformsPatternflySchema(formSchema: any) {
+  const entries = jp.query(formSchema, '$..properties[?(@.enum)]');
+
+  entries.forEach(entry => {
+    set(entry, 'uniforms.component', HTMLSelectField);
+  });
 }
-
-const FormRenderer: React.FC<Props> = ({ formSchema }) => {
-  return (
-    <AutoForm
-      placeholder={true}
-      schema={new JSONSchemaBridge(formSchema, formModel => true)}
-      showInlineError={true}
-      role={'form'}
-    >
-      <AutoFields />
-    </AutoForm>
-  );
-};
-
-export default FormRenderer;

@@ -17,26 +17,25 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = merge(common, {
-  mode: 'production',
+  mode: 'development',
   devtool: 'source-map',
-  optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})]
+  devServer: {
+    contentBase: './dist',
+    compress: true,
+    inline: true,
+    historyApiFallback: true,
+    hot: true,
+    overlay: true,
+    open: true
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'envelope/styles.css',
-      chunkFilename: '[name].bundle.css'
-    })
-  ],
   module: {
     rules: [
       {
         test: /\.css$/,
         include: [
+          path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'src'),
           path.resolve('../../node_modules/patternfly'),
           path.resolve('../../node_modules/@patternfly/patternfly'),
@@ -52,19 +51,13 @@ module.exports = merge(common, {
           ),
           path.resolve(
             '../../node_modules/@patternfly/react-table/node_modules/@patternfly/react-styles/css'
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/components-common/dist/src/components/styles.css'
           )
         ],
-        use: [{
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            publicPath: '../',
-          }
-        },'to-string-loader',
-          'css-loader']
+        use: ['style-loader', "to-string-loader", 'css-loader']
       }
     ]
+  },
+  output: {
+    filename: 'src/rendering/patternfly/styles.css'
   }
 });

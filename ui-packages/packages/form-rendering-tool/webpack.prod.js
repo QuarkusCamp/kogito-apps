@@ -28,8 +28,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'envelope/styles.css',
-      chunkFilename: '[name].bundle.css'
+      filename: 'rendering/patternfly/styles.css',
     })
   ],
   module: {
@@ -52,9 +51,6 @@ module.exports = merge(common, {
           ),
           path.resolve(
             '../../node_modules/@patternfly/react-table/node_modules/@patternfly/react-styles/css'
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/components-common/dist/src/components/styles.css'
           )
         ],
         use: [{
@@ -62,8 +58,7 @@ module.exports = merge(common, {
           options: {
             publicPath: '../',
           }
-        },'to-string-loader',
-          'css-loader']
+        }, "to-string-loader", 'css-loader']
       }
     ]
   }
