@@ -48,15 +48,25 @@ function HTMLSelectField(props: HTMLSelectFieldProps) {
     );
   });
   return (
-    <select
-      id={props.id}
-      className={'pf-c-form-control'}
-      name={props.name}
-      value={props.value}
-      defaultValue={props.defaultValue}
-    >
-      {options}
-    </select>
+    <div className="pf-c-form__group">
+      <div className="pf-c-form__group-label">
+        <label className="pf-c-form__label" htmlFor={props.id}>
+          <span className="pf-c-form__label-text">{props.label}</span>
+        </label>
+      </div>
+      <div className="pf-c-form__group-control">
+        <select
+          id={props.id}
+          className={'pf-c-form-control'}
+          name={props.name}
+          value={props.value}
+          defaultValue={props.defaultValue}
+          disabled={props.disabled}
+        >
+          {options}
+        </select>
+      </div>
+    </div>
   );
 }
 

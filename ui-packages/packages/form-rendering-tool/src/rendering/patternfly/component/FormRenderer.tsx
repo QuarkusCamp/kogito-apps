@@ -17,12 +17,15 @@
 import * as React from 'react';
 import JSONSchemaBridge from 'uniforms-bridge-json-schema';
 import { AutoFields, AutoForm } from 'uniforms-patternfly';
+import { processSchema } from "./HTMLSelectField";
 
 export interface Props {
   formSchema: any;
 }
 
 const FormRenderer: React.FC<Props> = ({ formSchema }) => {
+  processSchema(formSchema);
+
   return (
     <AutoForm
       placeholder={true}

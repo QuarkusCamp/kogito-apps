@@ -26,9 +26,10 @@ module.exports = merge(common, {
   optimization: {
     minimizer: [new OptimizeCSSAssetsPlugin({})]
   },
+  target: 'node',
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'rendering/patternfly/styles.css',
+      filename: 'rendering/patternfly/patternfly.css',
     })
   ],
   module: {
@@ -54,11 +55,12 @@ module.exports = merge(common, {
           )
         ],
         use: [{
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            publicPath: '../',
-          }
-        }, "to-string-loader", 'css-loader']
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../',
+              emit: true
+            }
+          }, 'css-loader']
       }
     ]
   }
