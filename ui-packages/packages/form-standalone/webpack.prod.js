@@ -16,7 +16,14 @@
 
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
+const embedded = require('./webpack.embedded.prod');
+const envelope = require('./webpack.envelope.prod');
 
-module.exports = merge(common, {
+module.exports = merge(common, embedded, envelope, {
   mode: 'production',
+  output: {
+    filename: '[name].js',
+    libraryTarget: 'window',
+    libraryExport: 'Forms'
+  }
 });

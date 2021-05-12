@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="stylesheet" href="resources/styles.css" data-form-resource="true">
+
+    <script>
+        <%
+        print('const schema=' + formResources.schema + ';')
+        %>
+        function start() {
+            alert('start');
+        }
+    </script>
+
+</head>
+<body onload="start()">
+    <%
+    print(formResources.formContent);
+    %>
+</body>
+</html>

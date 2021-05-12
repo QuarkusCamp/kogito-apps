@@ -14,9 +14,14 @@
  * limitations under the License.
  */
 
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
-
-module.exports = merge(common, {
+module.exports = {
   mode: 'production',
-});
+  entry: {
+    embedded: "./src/index.ts",
+  },
+  output: {
+    filename: '[name].js',
+    libraryTarget: 'window',
+    libraryExport: 'Forms'
+  }
+}

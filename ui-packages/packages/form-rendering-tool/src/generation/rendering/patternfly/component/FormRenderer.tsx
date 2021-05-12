@@ -14,9 +14,25 @@
  * limitations under the License.
  */
 
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+import * as React from 'react';
+import JSONSchemaBridge from 'uniforms-bridge-json-schema';
+import { AutoFields, AutoForm } from 'uniforms-patternfly';
 
-module.exports = merge(common, {
-  mode: 'production',
-});
+export interface Props {
+  formSchema: any;
+}
+
+const FormRenderer: React.FC<Props> = ({ formSchema }) => {
+  return (
+    <AutoForm
+      placeholder={true}
+      schema={new JSONSchemaBridge(formSchema, formModel => true)}
+      showInlineError={true}
+      role={'form'}
+    >
+      <AutoFields />
+    </AutoForm>
+  );
+};
+
+export default FormRenderer;

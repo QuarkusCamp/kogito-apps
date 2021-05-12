@@ -17,8 +17,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -33,11 +31,6 @@ module.exports = merge(common, {
     open: true
   },
   target: 'node',
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'rendering/patternfly/styles.css',
-    })
-  ],
   module: {
     rules: [
       {
@@ -60,8 +53,7 @@ module.exports = merge(common, {
             '../../node_modules/@patternfly/react-table/node_modules/@patternfly/react-styles/css'
           )
         ],
-        use: ['to-string-loader',
-          {
+        use: [{
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: '../',
@@ -72,6 +64,6 @@ module.exports = merge(common, {
     ]
   },
   output: {
-    filename: 'src/rendering/patternfly/styles.css'
+    filename: 'src/generation/rendering/patternfly/styles.css'
   }
 });

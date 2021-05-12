@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-
-const MockedFormRenderer = (): React.ReactElement => {
-  return <></>;
-};
-
-export default MockedFormRenderer;
+export interface KogitoFormChannelApi {
+  form_submit(data: any): Promise<void>;
+}

@@ -14,9 +14,29 @@
  * limitations under the License.
  */
 
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+import * as _ from 'underscore';
+import htmlTemplate from '!!raw-loader!./page.template';
+import { FormDefinition, FormTemplate } from './Api';
 
-module.exports = merge(common, {
-  mode: 'production',
-});
+export function generateForm(definition: FormDefinition): FormTemplate {
+  const template = _.template(htmlTemplate);
+
+  const htmlContent: string = template({
+    formResources: {
+      schema: definition.schema,
+      formContent: definition.html
+    }
+  });
+
+  return {
+    name: definition.name,
+    schema: definition.schema,
+    htmlContent,
+    resources: [
+      {
+        name: 'styles.css',
+        content: definition.css
+      }
+    ]
+  };
+}

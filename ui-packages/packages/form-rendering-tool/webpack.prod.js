@@ -19,6 +19,7 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = merge(common, {
   mode: 'production',
@@ -29,7 +30,10 @@ module.exports = merge(common, {
   target: 'node',
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'rendering/patternfly/patternfly.css',
+      filename: 'generation/rendering/patternfly/patternfly.css',
+    }),
+    new CopyPlugin({
+      patterns: [{ from: "./src/generation/generator/page.template", to: "./generation/generator/page.template" }]
     })
   ],
   module: {
@@ -61,6 +65,13 @@ module.exports = merge(common, {
               emit: true
             }
           }, 'css-loader']
+      },
+      {
+        test: /\.template$/,
+        include: [
+          path.resolve(__dirname, 'src'),
+        ],
+        use: ['raw-loader']
       }
     ]
   }

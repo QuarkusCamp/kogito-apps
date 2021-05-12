@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+import { FormTemplate } from './generator/Api';
+import { FormRenderingFactory, HTMLForm } from './rendering';
+import { generateForm } from './generator';
 
-module.exports = merge(common, {
-  mode: 'production',
-});
+export function FormGenerationTool(name: string, schema: string): FormTemplate {
+  const htmlForm: HTMLForm = FormRenderingFactory(name, schema);
+
+  return generateForm({
+    name,
+    schema,
+    html: htmlForm.html,
+    css: htmlForm.css
+  });
+}

@@ -14,5 +14,23 @@
  * limitations under the License.
  */
 
-export { HTMLForm } from './Api';
-export { FormRenderingFactory } from './FormRenderingFactory';
+export interface FormContext {
+  schema: any;
+}
+
+export interface Association {
+  origin: string;
+  envelopeServerId: string;
+}
+
+export interface FormInitArgs {
+  data: any;
+  context: FormContext;
+}
+
+export interface KogitoFormEnvelopeApi {
+  form_init(association: Association, data: FormInitArgs): Promise<void>;
+  form_getFormData(): Promise<any>;
+  form_reset(): Promise<void>;
+  form_submit(): Promise<any>;
+}

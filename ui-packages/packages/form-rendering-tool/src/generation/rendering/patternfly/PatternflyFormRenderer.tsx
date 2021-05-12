@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import css from '!!raw-loader!./patternfly.css';
+import css from '!!raw-loader!@patternfly/patternfly/patternfly.css';
 import { UniformsFormRenderer } from '../UniformsFormRenderer';
 import { HTMLForm } from '../Api';
 import { component2String } from '../utils/ReactRenderingUtils';
@@ -24,11 +24,6 @@ export default class PatternflyFormRenderer extends UniformsFormRenderer {
   name: 'patternfly';
 
   protected doRender = (schema: any): HTMLForm => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    //const cssContent: string = require('!!raw-loader!./styles.txt');
-    console.log('Here are the contents:');
-    console.log(css);
-
     return {
       html: component2String(FormRenderer, { formSchema: schema }),
       css: css

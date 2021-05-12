@@ -14,9 +14,5 @@
  * limitations under the License.
  */
 
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
-
-module.exports = merge(common, {
-  mode: 'production',
-});
+export { HTMLForm, JSONForm } from './Api';
+export { FormRenderingFactory } from './FormRenderingFactory';

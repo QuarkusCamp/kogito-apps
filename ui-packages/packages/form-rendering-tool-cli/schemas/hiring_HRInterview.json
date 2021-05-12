@@ -1,1 +1,36 @@
-{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"candidate":{"type":"object","properties":{"email":{"type":"string"},"name":{"type":"string"},"salary":{"type":"integer"},"skills":{"type":"string"},"type":{"type":"string","enum":["Person","Developer"]}},"input":true},"approve":{"type":"boolean","output":true}}}
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "candidate": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "salary": {
+          "type": "integer"
+        },
+        "skills": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Person",
+            "Developer"
+          ]
+        }
+      },
+      "input": true,
+      "output": true
+    },
+    "approve": {
+      "type": "boolean",
+      "output": true
+    }
+  }
+}

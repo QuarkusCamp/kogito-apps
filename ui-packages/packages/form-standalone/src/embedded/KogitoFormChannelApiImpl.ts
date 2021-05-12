@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+import { KogitoFormChannelApi } from '../api/KogitoFormChannelApi';
 
-module.exports = merge(common, {
-  mode: 'production',
-});
+export class KogitoFormChannelApiImpl implements KogitoFormChannelApi {
+  constructor(private readonly doSubmit: (data: any) => Promise<void>) {}
+
+  form_submit(data: any): Promise<void> {
+    return this.doSubmit(data);
+  }
+}

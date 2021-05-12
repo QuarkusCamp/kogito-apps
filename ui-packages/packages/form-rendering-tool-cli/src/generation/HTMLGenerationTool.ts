@@ -18,8 +18,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as prettier from 'prettier';
 import {
-  FormRenderingFactory,
-  HTMLForm
+  FormTemplate,
+  FormGenerationTool
 } from '@kogito-apps/form-rendering-tool';
 
 export function generateHTML(sourceFolder: string) {
@@ -40,7 +40,10 @@ export function generateHTML(sourceFolder: string) {
           try {
             const schema: string = fs.readFileSync(filePath, 'utf8');
 
-            const form: HTMLForm = FormRenderingFactory(fileName.name, schema);
+            const form: FormTemplate = FormGenerationTool(
+              fileName.name,
+              schema
+            );
 
             const storagePath = `${sourceFolder}/${fileName.name}`;
             const resourcesPath = `${storagePath}/resources`;
@@ -58,7 +61,7 @@ export function generateHTML(sourceFolder: string) {
             );
             fs.writeFileSync(
               `${storagePath}/form.html`,
-              prettier.format(form.html, {
+              prettier.format(form.htmlContent, {
                 parser: 'html',
                 filepath: htmlFileName,
                 htmlWhitespaceSensitivity: 'strict',
@@ -66,7 +69,13 @@ export function generateHTML(sourceFolder: string) {
                 tabWidth: 2
               })
             );
-            fs.writeFileSync(`${resourcesPath}/styles.css`, form.css);
+            form.resources.forEach(resource => {
+              fs.writeFileSync(
+                `${resourcesPath}/${resource.name}`,
+                resource.content
+              );
+            });
+
             console.log(`Succesfylly generated HTML form ${htmlFileName}`);
           } catch (err) {
             console.error(

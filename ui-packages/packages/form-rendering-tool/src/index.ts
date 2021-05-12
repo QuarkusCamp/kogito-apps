@@ -14,5 +14,4 @@
  * limitations under the License.
  */
 
-export { HTMLForm } from './rendering/Api';
-export { FormRenderingFactory } from './rendering/FormRenderingFactory';
+export { FormGenerationTool } from './generation/FormGenerationTool';
