@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-module.exports = {
-  mode: 'production',
-  entry: {
-    embedded: "./src/index.ts",
-  },
-  output: {
-    filename: '[name].js',
-    libraryTarget: 'var',
-    library: 'Forms'
-  }
+import { FormContext } from './KogitoFormEnvelopeApi';
+
+export interface EnvelopeFormApi {
+  submit: () => void;
+  reset: () => void;
+  getData: () => any;
+  getContext: () => FormContext;
+
+  // Life cycle methods
+  onOpen: (data: any, context: any) => void;
+  beforeSubmit: () => void;
+  afterSubmit: () => void;
 }

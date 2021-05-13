@@ -16,6 +16,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { generateHTML } from './generation/HTMLGenerationTool';
+import { pack } from './packing/FormPackingTool';
 
 yargs(hideBin(process.argv))
   .scriptName('form-renderer-cli')
@@ -54,7 +55,7 @@ yargs(hideBin(process.argv))
       }
     },
     argv => {
-      console.info(`generating forms on ${argv.source}`);
+      pack(argv.source);
     }
   )
   .demandOption(

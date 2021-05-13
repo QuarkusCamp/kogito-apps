@@ -21,6 +21,6 @@ module.exports = {
   output: {
     filename: '[name].js',
     libraryTarget: 'window',
-    libraryExport: 'Forms'
+    library: 'EnvelopeForms'
   }
 };

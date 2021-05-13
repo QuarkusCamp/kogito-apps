@@ -14,44 +14,61 @@
  * limitations under the License.
  */
 
+import { Envelope, EnvelopeApiFactoryArgs } from '@kogito-tooling/envelope';
 import {
-  Envelope,
-  EnvelopeApiFactoryArgs,
-  EnvelopeIFrameConfig
-} from '@kogito-tooling/envelope';
-import { EnvelopeBus } from '@kogito-tooling/envelope-bus/dist/api';
+  EnvelopeBus,
+  EnvelopeBusMessage
+} from '@kogito-tooling/envelope-bus/dist/api';
 import {
   KogitoFormEnvelopeApi,
   KogitoFormChannelApi,
   Association,
-  FormInitArgs
+  FormInitArgs,
+  FormContext
 } from '../api';
-import { KogitoFormEnvelopeViewApi } from './KogitoFormEnvelopeViewApi';
+import { StandaloneFormEnvelopeViewApi } from './StandaloneFormEnvelopeViewApi';
 import { ContainerType } from '../../../../../../kogito-tooling/packages/envelope/src/api';
+import { EnvelopeFormApi } from '../api/EnvelopeFormApi';
+import { FormController, EnvelopeFormApiImpl } from './form/FormController';
 
-export function init(args: {
-  config: EnvelopeIFrameConfig;
-  container: HTMLElement;
-  bus: EnvelopeBus;
-}) {
+export function initForm(container: HTMLFormElement): EnvelopeFormApi {
+  const bus: EnvelopeBus = {
+    postMessage<D, Type>(
+      message: EnvelopeBusMessage<D, Type>,
+      targetOrigin?: string,
+      _?: any
+    ) {
+      window.parent.postMessage(message, '*', _);
+    }
+  };
+
   const envelope = new Envelope<
     KogitoFormEnvelopeApi,
     KogitoFormChannelApi,
-    KogitoFormEnvelopeViewApi,
+    StandaloneFormEnvelopeViewApi,
     any
-  >(args.bus, {
+  >(bus, {
     containerType: ContainerType.IFRAME
   });
 
-  const delegate = (): Promise<() => KogitoFormEnvelopeViewApi> => {
-    return new Promise<() => KogitoFormEnvelopeViewApi>(resolve => {
-      const api: KogitoFormEnvelopeViewApi = {
-        form_init() {
-          console.log('hi');
+  const formController: FormController = new FormController();
+
+  const delegate = (): Promise<() => StandaloneFormEnvelopeViewApi> => {
+    return new Promise<() => StandaloneFormEnvelopeViewApi>(resolve => {
+      const viewApi: StandaloneFormEnvelopeViewApi = {
+        standaloneForm_init(data: any, context: FormContext) {
+          formController.initForm(data, context);
+
+          const inputs = container.elements;
+
+          inputs['candidate.name'].value = data.candidate.name;
+          inputs['candidate.email'].value = data.candidate.email;
+          inputs['candidate.salary'].value = data.candidate.salary;
+          inputs['candidate.skills'].value = data.candidate.skills;
         }
       };
 
-      resolve(() => api);
+      resolve(() => viewApi);
     });
   };
 
@@ -63,7 +80,7 @@ export function init(args: {
         args: EnvelopeApiFactoryArgs<
           KogitoFormEnvelopeApi,
           KogitoFormChannelApi,
-          KogitoFormEnvelopeViewApi,
+          StandaloneFormEnvelopeViewApi,
           any
         >
       ): KogitoFormEnvelopeApi {
@@ -76,7 +93,7 @@ export function init(args: {
               association.origin,
               association.envelopeServerId
             );
-            args.view().form_init();
+            args.view().standaloneForm_init(initArgs.data, initArgs.context);
             return Promise.resolve();
           },
           form_getFormData(): Promise<any> {
@@ -92,4 +109,6 @@ export function init(args: {
       }
     }
   );
+
+  return new EnvelopeFormApiImpl(formController);
 }

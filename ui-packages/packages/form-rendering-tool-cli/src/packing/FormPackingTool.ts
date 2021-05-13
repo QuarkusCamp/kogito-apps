@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-module.exports = {
-  mode: 'production',
-  entry: {
-    embedded: "./src/index.ts",
-  },
-  output: {
-    filename: '[name].js',
-    libraryTarget: 'var',
-    library: 'Forms'
-  }
+import dirtree from 'directory-tree';
+import * as fs from 'fs';
+import * as path from 'path';
+
+export function pack(sourceFolder: string) {
+  console.log(`Packing Forms in '${sourceFolder}'`);
+
+  fs.readdir(sourceFolder, (err, files) => {
+    if (err) {
+      console.log(`Cannot read '${sourceFolder}': ${err}`);
+      return;
+    }
+    files.forEach(formName => {
+      const formPath = `${sourceFolder}/${formName}`;
+      const stat = fs.statSync(formPath);
+      if (stat.isDirectory()) {
+        const tree = dirtree(path.resolve(formPath));
+
+        console.log(tree);
+      }
+    });
+  });
 }

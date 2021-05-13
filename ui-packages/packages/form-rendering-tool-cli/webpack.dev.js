@@ -23,18 +23,6 @@ const PORT = process.env.PORT || '9000';
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'source-map',
-  devServer: {
-    contentBase: './dist',
-    host: HOST,
-    port: PORT,
-    compress: true,
-    inline: true,
-    historyApiFallback: true,
-    hot: true,
-    overlay: true,
-    open: true
-  },
   module: {
     rules: [
       {

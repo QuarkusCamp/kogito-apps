@@ -18,16 +18,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Envelope example</title>
   <script src="hiring_HRInterview.js"></script>
   <script>
     function load() {
-      hiring_HRInterview(document.getElementById('container'))
+      hiring_HRInterview(document.getElementById('container'), {
+        candidate: {
+          name: 'Pere',
+          email: 'pefernan@redhat.com',
+          salary: -1000,
+          skills: 'Java, React, TS'
+        }
+      })
     }
   </script>
 </head>
 <body>
-<button onclick="load()">Load</button>
+<code style="background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;">
+  {
+    candidate: {
+      name: 'Pere',
+      email: 'pefernan@redhat.com',
+      salary: -1000,
+      skills: 'Java, React, TS'
+    }
+  }
+</code>
+<p>
+  <button onclick="load()">Load with envelope</button>
+</p>
+
 <div id="container" style="width: 100%; height:900px"></div>
 </body>
 </html>

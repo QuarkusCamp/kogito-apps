@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-const { merge } = require("webpack-merge");
-const common = require("../../webpack.common.config");
+export interface Resource {
+  name: string;
+  content: string;
+}
 
-module.exports = [
-  merge(common, {
-    entry: {
-      index: "./src/index.ts"
-    },
-    output: {
-      libraryTarget: "commonjs2"
-    },
-  })
-];
+export interface FormPackage {
+  name: string;
+  html: string;
+  resources: Resource[];
+}
+
+export interface PackedForm {
+  name: string;
+  content: string;
+}
+
+export function FormPackingTool(formPackage: FormPackage): PackedForm {
+  console.log(formPackage);
+
+  return undefined;
+}

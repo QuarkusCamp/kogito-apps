@@ -18,15 +18,9 @@ const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-  entry: {
-    index: path.resolve(__dirname, './src/index.ts')
-  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: "umd",
-    globalObject: "this"
   },
-  target: 'node',
   module: {
     rules: [
       {
