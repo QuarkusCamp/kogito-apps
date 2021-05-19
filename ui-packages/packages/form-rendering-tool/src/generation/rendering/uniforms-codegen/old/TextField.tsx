@@ -50,7 +50,6 @@ const Text: React.FunctionComponent<TextFieldProps> = (
      */
     return `<PatternFly.DatePicker
         name="${props.name}"
-        id="${props.id}"
         isDisabled={${props.disabled || 'false'}}
         value="${props.value || ''}/>`;
   };
@@ -60,7 +59,6 @@ const Text: React.FunctionComponent<TextFieldProps> = (
 
     return `<PatternFly.TextInput
         name="${props.name}"
-        id="${props.id}"
         isDisabled={${props.disabled || 'false'}}
         validated="${props.error ? 'error' : 'default'}"
         placeholder="${props.placeholder}"

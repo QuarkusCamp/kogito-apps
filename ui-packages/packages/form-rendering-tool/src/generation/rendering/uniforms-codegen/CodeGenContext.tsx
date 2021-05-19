@@ -32,7 +32,12 @@ export const CodeGenContextProvider: React.FC<ProviderProps> = props => {
         onSubmit: undefined,
         randomId: randomIds(),
         schema: props.schema,
-        state: undefined,
+        state: {
+          disabled: false,
+          label: true,
+          placeholder: true,
+          showInlineError: true
+        },
         submitting: false,
         validating: false
       }}

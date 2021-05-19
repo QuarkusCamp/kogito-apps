@@ -29,6 +29,14 @@ const formSchema = {
     },
     married: {
       type: 'boolean'
+    },
+    age: {
+      type: 'integer'
+    },
+    salary: {
+      type: 'number',
+      min: 1000,
+      max: 10000000
     }
   }
 };
@@ -75,6 +83,67 @@ const nested = {
   }
 };
 
+const nestedSimple = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  type: 'object',
+  properties: {
+    candidate: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string',
+          format: 'email'
+        },
+        salary: {
+          type: 'integer'
+        },
+        skills: {
+          type: 'string'
+        }
+      }
+    },
+    approve: {
+      type: 'boolean'
+    }
+  }
+};
+
+const nestedFull = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  type: 'object',
+  properties: {
+    candidate: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string',
+          format: 'email'
+        },
+        salary: {
+          type: 'integer'
+        },
+        skills: {
+          type: 'string'
+        },
+        child: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string'
+            },
+            age: {
+              type: 'integer'
+            }
+          }
+        }
+      }
+    },
+    approve: {
+      type: 'boolean'
+    }
+  }
+};
+
 const renderer: PatternflyFormRenderer = new PatternflyFormRenderer();
 
 describe('PatternflyFormRenderer tests', () => {
@@ -82,6 +151,24 @@ describe('PatternflyFormRenderer tests', () => {
     const result = renderer.render({
       name: 'testForm',
       schema: formSchema
+    });
+
+    console.log(result);
+  });
+
+  it('Rendering Nested Simple', () => {
+    const result = renderer.render({
+      name: 'testForm',
+      schema: nestedSimple
+    });
+
+    console.log(result);
+  });
+
+  it('Rendering Nested Full', () => {
+    const result = renderer.render({
+      name: 'testForm',
+      schema: nestedFull
     });
 
     console.log(result);

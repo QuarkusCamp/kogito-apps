@@ -30,7 +30,8 @@ export type Props = {
 const PatternflyCodeGenAutoForm: React.FC<Props> = props => {
   const inputs = renderInputsFragment(props.schema);
 
-  console.log(inputs);
+  console.log('Result:', inputs);
+
   return <div>{inputs}</div>;
 };
 

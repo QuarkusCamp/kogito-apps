@@ -15,16 +15,37 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Bridge } from 'uniforms';
 import FormInputs from './FormInputs';
+import NestedFormInputs from './NestedFormInputs';
+import ReactDOMServer from 'react-dom/server';
 
-export const renderInputsFragment = (schema: Bridge) => {
-  const container = document.createElement('div');
+const domParser = new DOMParser();
 
-  ReactDOM.render(<FormInputs schema={schema} />, container);
+const parse = (content: string): string => {
+  return domParser.parseFromString(content, 'text/html').body.textContent;
+};
 
-  console.log(container.textContent);
+export const renderInputsFragment = (schema: Bridge): string => {
+  const content = ReactDOMServer.renderToString(
+    React.createElement(FormInputs, { schema })
+  );
+  return parse(content);
+};
 
-  return container.textContent;
+export const renderNestedInputFragmentWithContext = (
+  parentContext: any,
+  field: any,
+  itempProps: any,
+  disabled?: boolean
+): string => {
+  const content = ReactDOMServer.renderToString(
+    React.createElement(NestedFormInputs, {
+      parentContext,
+      field,
+      itempProps,
+      disabled
+    })
+  );
+  return parse(content);
 };

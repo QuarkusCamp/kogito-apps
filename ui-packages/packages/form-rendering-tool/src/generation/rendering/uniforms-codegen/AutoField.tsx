@@ -1,5 +1,6 @@
-import invariant from 'invariant';
 import { ComponentType, createElement } from 'react';
+import invariant from 'invariant';
+import { useField } from 'uniforms';
 /*
 import DateField from './DateField';
 import ListField from './ListField';
@@ -9,7 +10,9 @@ import RadioField from './RadioField';
 import SelectField from './SelectField';*/
 import TextField from './TextField';
 import BoolField from './BoolField';
-import { useField } from './useField';
+import NumField from './NumField';
+import NestField from './NestField';
+//import { useField } from "./useField";
 
 export type AutoFieldProps = {
   component?: ComponentType<any>;
@@ -38,13 +41,13 @@ export default function AutoField(originalProps: AutoFieldProps) {
       /*
       case Date:
         component = DateField;
-        break;
+        break;*/
       case Number:
         component = NumField;
         break;
       case Object:
         component = NestField;
-        break;*/
+        break;
       case String:
         component = TextField;
         break;
