@@ -21,6 +21,23 @@ const formSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   properties: {
+    email: {
+      type: 'string'
+    },
+    skills: {
+      type: 'string'
+    },
+    married: {
+      type: 'boolean'
+    }
+  }
+};
+
+// @ts-ignore
+const nested = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  type: 'object',
+  properties: {
     candidate: {
       type: 'object',
       properties: {

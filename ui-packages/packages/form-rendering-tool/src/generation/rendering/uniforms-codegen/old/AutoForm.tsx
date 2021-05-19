@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-import JSONSchemaBridge from 'uniforms-bridge-json-schema';
-import AutoFields from '../../uniforms-codegen/AutoFields';
-import PatternflyCodeGenAutoForm from '../../uniforms-codegen/PatternflyCodegenAutoForm';
+import { AutoForm } from 'uniforms';
 
-export interface Props {
-  formSchema: any;
+import ValidatedQuickForm from './ValidatedQuickForm';
+
+function Auto(parent: any): any {
+  class _ extends AutoForm.Auto(parent) {
+    static Auto = Auto;
+  }
+
+  return _;
 }
 
-const FormRenderer: React.FC<Props> = ({ formSchema }) => {
-  return (
-    <PatternflyCodeGenAutoForm
-      schema={new JSONSchemaBridge(formSchema, formModel => true)}
-    >
-      <AutoFields />
-    </PatternflyCodeGenAutoForm>
-  );
-};
-
-export default FormRenderer;
+export default Auto(ValidatedQuickForm);
