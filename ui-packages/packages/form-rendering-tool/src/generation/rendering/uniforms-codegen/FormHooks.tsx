@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-import { ValidatedForm } from 'uniforms';
+import { Bridge } from 'uniforms';
+import { CodeGenContextProvider, CodeGenPhase } from './CodeGenContext';
+import React from 'react';
 
-import BaseForm from './BaseForm';
-
-function Validated(parent: any): any {
-  class _ extends ValidatedForm.Validated(parent) {
-    static Validated = Validated;
-  }
-
-  return _;
+export interface Props {
+  schema: Bridge;
 }
 
-export default Validated(BaseForm);
+export default class FormInputs extends React.Component<Props, any> {
+  render() {
+    return (
+      <CodeGenContextProvider
+        phase={CodeGenPhase.HOOKS}
+        schema={this.props.schema}
+      />
+    );
+  }
+}

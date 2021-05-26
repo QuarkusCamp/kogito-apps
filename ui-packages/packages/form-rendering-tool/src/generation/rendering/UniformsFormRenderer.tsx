@@ -23,7 +23,7 @@ import { HTMLForm, FormRenderer, JSONForm } from './Api';
 
 export abstract class UniformsFormRenderer implements FormRenderer {
   abstract name: string;
-  protected abstract doRender: (jsonForm: JSONForm) => HTMLForm;
+  protected abstract doRender: (formName: string, schema: any) => HTMLForm;
 
   render(jsonForm: JSONForm): HTMLForm {
     const schemaClone = cloneDeep(jsonForm.schema);
@@ -44,6 +44,6 @@ export abstract class UniformsFormRenderer implements FormRenderer {
         }
       }
     }
-    return this.doRender(schemaClone);
+    return this.doRender(jsonForm.name, schemaClone);
   }
 }

@@ -51,7 +51,7 @@ export function generateHTML(sourceFolder: string) {
             fs.mkdirSync(storagePath);
             fs.mkdirSync(resourcesPath);
 
-            const htmlFileName = `${storagePath}/form.html`;
+            const formFileName = `${storagePath}/form.tsx`;
 
             fs.writeFileSync(
               `${storagePath}/schema.json`,
@@ -60,10 +60,10 @@ export function generateHTML(sourceFolder: string) {
               })
             );
             fs.writeFileSync(
-              `${storagePath}/form.html`,
+              formFileName,
               prettier.format(form.htmlContent, {
-                parser: 'html',
-                filepath: htmlFileName,
+                parser: 'typescript',
+                filepath: formFileName,
                 htmlWhitespaceSensitivity: 'strict',
                 endOfLine: 'auto',
                 tabWidth: 2
@@ -76,7 +76,7 @@ export function generateHTML(sourceFolder: string) {
               );
             });
 
-            console.log(`Succesfylly generated HTML form ${htmlFileName}`);
+            console.log(`Succesfylly generated HTML form ${formFileName}`);
           } catch (err) {
             console.error(
               `Couldn't generate HTML form for ${filePath}. Reason:`

@@ -1,7 +1,9 @@
-import { ComponentType, createElement } from 'react';
-import { useForm } from 'uniforms/es5';
+import React, { ComponentType, useContext } from 'react';
+import { context } from 'uniforms';
 
 import AutoField from './AutoField';
+import { RenderedField } from './RenderedField';
+import { renderNestedInputFragmentWithContext } from './Utils';
 
 export type AutoFieldsProps = {
   autoField?: ComponentType<{ name: string }>;
@@ -17,15 +19,23 @@ export default function AutoFields({
   omitFields,
   ...props
 }: AutoFieldsProps) {
-  const { schema } = useForm();
+  const parentContext = useContext(context);
+  const schema = parentContext.schema;
 
-  return createElement(
-    element!,
-    props,
-    (fields || schema.getSubfields())
-      .filter(field => !omitFields!.includes(field))
-      .map(field => createElement(autoField!, { key: field, name: field }))
-  );
+  const renderedFields: RenderedField[] = [];
+
+  (fields || schema.getSubfields())
+    .filter(field => !omitFields!.includes(field))
+    .forEach(field => {
+      const renderedField = renderNestedInputFragmentWithContext(
+        parentContext,
+        field,
+        undefined
+      );
+      renderedFields.push(renderedField);
+    });
+
+  return <>{JSON.stringify(renderedFields)}</>;
 }
 
 AutoFields.defaultProps = {

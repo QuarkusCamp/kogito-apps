@@ -18,11 +18,7 @@
           "type": "string"
         },
         "type": {
-          "type": "string",
-          "enum": [
-            "Person",
-            "Developer"
-          ]
+          "type": "string"
         }
       },
       "input": true,

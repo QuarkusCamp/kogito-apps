@@ -17,11 +17,11 @@
 import React from 'react';
 import { Bridge } from 'uniforms';
 
-import { renderInputsFragment } from './Utils';
+import { NS_SEPARATOR, renderInputsFragment } from './Utils';
 
 export type Props = {
+  id: string;
   disabled?: boolean;
-  id?: string;
   placeholder?: boolean;
   schema: Bridge;
   showInlineError?: boolean;
@@ -30,9 +30,26 @@ export type Props = {
 const PatternflyCodeGenAutoForm: React.FC<Props> = props => {
   const inputs = renderInputsFragment(props.schema);
 
-  console.log('Result:', inputs);
+  const formName = `Form${props.id ? `${NS_SEPARATOR}${props.id}` : ''}`;
+  const hooks = inputs.map(input => input.hooks).join('\n');
+  const elements = inputs.map(input => input.element).join('\n');
 
-  return <div>{inputs}</div>;
+  const formTemplate = `import React, { useState }  from "react";
+    import * as PatternFly from "@patternfly/react-core";
+    
+    const ${formName}: React.FC<any> = ( props ) => {
+      ${hooks}
+      
+      return (
+        <PatternFly.Form>
+          ${elements}        
+        </PatternFly.Form>
+      )    
+    }
+    
+    export default ${formName};`;
+
+  return <>{formTemplate}</>;
 };
 
 export default PatternflyCodeGenAutoForm;

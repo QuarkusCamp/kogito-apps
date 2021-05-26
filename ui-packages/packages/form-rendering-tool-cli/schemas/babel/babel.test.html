@@ -1,0 +1,95 @@
+<!--
+  ~ Copyright 2021 Red Hat, Inc. and/or its affiliates.
+  ~  
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@17.0.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.0/umd/react-dom.development.js"></script>
+<!--<script src="https://unpkg.com/typescript@4.2.4/lib/tsc.js"></script>-->
+<script src="https://www.unpkg.com/browse/patternfly-react@2.39.16/dist/js/index.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
+
+<script type="text/babel">
+
+  // const element = React.createElement('div', {
+  //   className: 'container',
+  //   children: 'Hello World',
+  // })
+
+  //como renderizar jsx externo
+  /*const className = 'container'
+  const children = 'Hello World'
+  const props = {children, className}
+  // const element = React.createElement('div', {...props})
+  const element = <div id="test" {...props} />
+
+
+
+  ReactDOM.render(element, document.getElementById('root'))*/
+
+  const source = `import React, { useState } from "react";import * as PatternFly from "@patternfly/react-core";const Form__hiring_ITInterview: React.FC<any> = props => {  const [approve, set__approve] = useState<boolean>();  const [candidate__email, set__candidate__email] = useState<string>();  const [candidate__name, set__candidate__name] = useState<string>();  const [candidate__salary, set__candidate__salary] = useState<string>();  const [candidate__skills, set__candidate__skills] = useState<string>();  const [candidate__type, set__candidate__type] = useState<string>();  return (    <PatternFly.Form>      <div>        <PatternFly.Checkbox          isChecked={approve}          isDisabled={false}          id="uniforms-0001-0001"          name="approve"          label="Approve"          onChange={set__approve}        />      </div>      <PatternFly.Card>        <PatternFly.CardBody className="pf-c-form">          <label>            <b>Candidate</b>          </label>          <PatternFly.FormGroup            fieldId="uniforms-0001-0005"            label="Email"            isRequired={false}            validated="default"            helperText=""            helperTextInvalid=""          >            <PatternFly.TextInput              name="candidate.email"              id="uniforms-0001-0005"              isDisabled={false}              validated="default"              placeholder=""              type="text"              value={candidate__email}              onChange={set__candidate__email}            />          </PatternFly.FormGroup>          <PatternFly.FormGroup            fieldId="uniforms-0001-0007"            label="Name"            isRequired={false}            validated="default"            helperText=""            helperTextInvalid=""          >            <PatternFly.TextInput              name="candidate.name"              id="uniforms-0001-0007"              isDisabled={false}              validated="default"              placeholder=""              type="text"              value={candidate__name}              onChange={set__candidate__name}            />          </PatternFly.FormGroup>          <PatternFly.FormGroup            fieldId="uniforms-0001-0009"            label="Salary"            isRequired={false}            validated="default"            helperText=""            helperTextInvalid=""          >            <PatternFly.TextInput              type="number"              name="candidate.salary"              isDisabled={false}              id="uniforms-0001-0009"              placeholder=""              step={1}              value={candidate__salary}              onChange={set__candidate__salary}            />          </PatternFly.FormGroup>          <PatternFly.FormGroup            fieldId="uniforms-0001-000b"            label="Skills"            isRequired={false}            validated="default"            helperText=""            helperTextInvalid=""          >            <PatternFly.TextInput              name="candidate.skills"              id="uniforms-0001-000b"              isDisabled={false}              validated="default"              placeholder=""              type="text"              value={candidate__skills}              onChange={set__candidate__skills}            />          </PatternFly.FormGroup>          <PatternFly.FormGroup            fieldId="uniforms-0001-000d"            label="Type"            isRequired={false}            validated="default"            helperText=""            helperTextInvalid=""          >            <PatternFly.TextInput              name="candidate.type"              id="uniforms-0001-000d"              isDisabled={false}              validated="default"              placeholder=""              type="text"              value={candidate__type}              onChange={set__candidate__type}            />          </PatternFly.FormGroup>        </PatternFly.CardBody>      </PatternFly.Card>    </PatternFly.Form>  );};export default Form__hiring_ITInterview;`;
+  const babelconfig = `{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": "Edge 16"
+    }]
+  ]
+}`;
+  const customPlugin=`export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    manipulateOptions(opts, parserOpts) {
+      parserOpts.plugins.push(
+        "typescript",
+      );
+    },
+    name: "convert-class-fields-to-declare",
+    visitor: {
+      ClassProperty(path) {
+        if (path.get('typeAnnotation').isTSTypeAnnotation() && !path.node.declare) {
+          let clone = t.cloneNode(path.node);
+          clone.declare = true;
+          path.replaceWith(clone);
+        }
+      }
+    }
+  };
+}`;
+
+  var transpiled, ast;
+  try {
+    const res = Babel.transform(
+      source,
+      processOptions(babelConfig, customPlugin)
+    );
+    transpiled = res.code;
+    ast = compactFixture(JSON.stringify(res.ast, (k, v) => serialize(v), 2));
+    console.log('result: ', ast)
+  } catch (e) {
+    console.error(e);
+    transpiled = e.message;
+  }
+
+    </script>
+</body>
+</html>

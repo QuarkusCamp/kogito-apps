@@ -3,6 +3,7 @@ import { TextInputProps } from '@patternfly/react-core';
 import { connectField } from 'uniforms';
 
 import wrapField from './wrapField';
+import { getFieldHook, renderField } from './Utils';
 
 export type NumFieldProps = {
   id: string;
@@ -12,30 +13,29 @@ export type NumFieldProps = {
   error?: boolean;
 } & Omit<TextInputProps, 'isDisabled'>;
 
-const Num = (props: NumFieldProps) => {
-  /*
+const Num: React.FunctionComponent<NumFieldProps> = (props: NumFieldProps) => {
+  const hook = getFieldHook(props.name);
 
-  const onChange = (value, event) => {
-    const parse = props.decimal ? parseFloat : parseInt;
-    const v = parse(event.target.value);
-    // @ts-ignore
-    props.onChange(isNaN(v) ? undefined : v);
-  }
-*/
+  const numInputHooks = `const [ ${hook.name}, ${hook.setter} ] = useState<string>();`;
 
   const max = props.max ? `max={${props.max}}` : '';
   const min = props.min ? `min={${props.min}}` : '';
 
-  const input = `<PatternFly.TextInput
+  const numInputTemplate = wrapField(
+    props,
+    `<PatternFly.TextInput
       type="number"
       name="${props.name}"
       isDisabled={${props.disabled || 'false'}}
       id="${props.id}"
       placeholder="${props.placeholder}"
-      step={${props.decimal ? 0.01 : 1}}
-      value="${props.value || ''}" ${max} ${min}
-    />`;
-  return <>{wrapField(props, input)}</>;
+      step={${props.decimal ? 0.01 : 1}} ${max} ${min}
+      value={${hook.name}}
+      onChange={${hook.setter}}
+    />`
+  );
+
+  return renderField(props.id, props.name, numInputHooks, numInputTemplate);
 };
 
 export default connectField(Num);

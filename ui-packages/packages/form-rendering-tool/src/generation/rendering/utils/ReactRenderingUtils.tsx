@@ -16,10 +16,14 @@
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import decode from 'unescape';
 
 export const component2String = <P extends any>(
   type: React.FunctionComponent<P>,
   props: P
 ): string => {
-  return ReactDOMServer.renderToString(React.createElement(type, props));
+  const content = ReactDOMServer.renderToString(
+    React.createElement(type, props)
+  );
+  return decode(content);
 };

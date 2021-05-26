@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 
 import { Bridge, context, randomIds } from 'uniforms';
 import AutoFields from './AutoFields';
@@ -14,41 +14,49 @@ export interface CodeGenContext {
 
 export const codeGenContext = createContext<CodeGenContext>(null);
 
+export const useCodeGenPhase = (): CodeGenPhase => {
+  const ctx = useContext<CodeGenContext>(codeGenContext);
+  if (ctx) {
+    return ctx.phase;
+  }
+  return undefined;
+};
+
 export interface ProviderProps {
   phase: CodeGenPhase;
   schema: Bridge;
 }
 
 export const CodeGenContextProvider: React.FC<ProviderProps> = props => {
+  const ctx = {
+    changed: false,
+    changedMap: undefined,
+    error: false,
+    model: undefined,
+    name: [],
+    onChange: undefined,
+    onSubmit: undefined,
+    randomId: randomIds(),
+    schema: props.schema,
+    state: {
+      disabled: false,
+      label: true,
+      placeholder: true,
+      showInlineError: true
+    },
+    submitting: false,
+    validating: false
+  };
+
   return (
-    <context.Provider
+    <codeGenContext.Provider
       value={{
-        changed: false,
-        changedMap: undefined,
-        error: false,
-        model: undefined,
-        name: [],
-        onChange: undefined,
-        onSubmit: undefined,
-        randomId: randomIds(),
-        schema: props.schema,
-        state: {
-          disabled: false,
-          label: true,
-          placeholder: true,
-          showInlineError: true
-        },
-        submitting: false,
-        validating: false
+        phase: props.phase
       }}
     >
-      <codeGenContext.Provider
-        value={{
-          phase: props.phase
-        }}
-      >
+      <context.Provider value={ctx}>
         <AutoFields />
-      </codeGenContext.Provider>
-    </context.Provider>
+      </context.Provider>
+    </codeGenContext.Provider>
   );
 };

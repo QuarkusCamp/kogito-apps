@@ -3,7 +3,8 @@ import React from 'react';
 import { TextInputProps } from '@patternfly/react-core';
 
 import wrapField from './wrapField';
-import { connectField } from 'uniforms/es5';
+import { connectField } from 'uniforms';
+import { getFieldHook, renderField } from './Utils';
 
 export type TextFieldProps = {
   id: string;
@@ -42,34 +43,42 @@ const Text: React.FunctionComponent<TextFieldProps> = (
    );
  */
 
-  const renderDateControl = (): string => {
-    /*
+  /*const renderDateControl = (): string => {
+    /!*
            validators="${validateDate}"
         onChange="${onDateChange}"
  
-     */
+     *!/
     return `<PatternFly.DatePicker
         name="${props.name}"
         id="${props.id}"
         isDisabled={${props.disabled || 'false'}}
         value="${props.value || ''}/>`;
-  };
+  };*/
 
-  const renderTextControl = (): string => {
-    //        onChange="${(value, event) => props.onChange((event.target as any).value)}"
+  if (isDate) {
+    return undefined;
+  }
 
-    return `<PatternFly.TextInput
+  const hook = getFieldHook(props.name);
+
+  const textInputTemplate = wrapField(
+    props,
+    `<PatternFly.TextInput
         name="${props.name}"
         id="${props.id}"
         isDisabled={${props.disabled || 'false'}}
         validated="${props.error ? 'error' : 'default'}"
         placeholder="${props.placeholder}"
         type="${props.type || 'text'}"
-        value="${props.value || ''}"/>`;
-  };
-  return (
-    <>{wrapField(props, isDate ? renderDateControl() : renderTextControl())}</>
+        value={${hook.name}}
+        onChange={${hook.setter}}
+        />`
   );
+
+  const textHook = `const [ ${hook.name}, ${hook.setter} ] = useState<string>();`;
+
+  return renderField(props.id, props.name, textHook, textInputTemplate);
 };
 
 export default connectField(Text, { kind: 'leaf' });

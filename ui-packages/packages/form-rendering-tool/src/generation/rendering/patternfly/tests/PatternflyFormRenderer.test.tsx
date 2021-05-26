@@ -167,7 +167,7 @@ describe('PatternflyFormRenderer tests', () => {
 
   it('Rendering Nested Full', () => {
     const result = renderer.render({
-      name: 'testForm',
+      name: 'Fake',
       schema: nestedFull
     });
 

@@ -20,12 +20,14 @@ import AutoFields from '../../uniforms-codegen/AutoFields';
 import PatternflyCodeGenAutoForm from '../../uniforms-codegen/PatternflyCodegenAutoForm';
 
 export interface Props {
+  id: string;
   formSchema: any;
 }
 
-const FormRenderer: React.FC<Props> = ({ formSchema }) => {
+const FormRenderer: React.FC<Props> = ({ id, formSchema }) => {
   return (
     <PatternflyCodeGenAutoForm
+      id={id}
       schema={new JSONSchemaBridge(formSchema, formModel => true)}
     >
       <AutoFields />

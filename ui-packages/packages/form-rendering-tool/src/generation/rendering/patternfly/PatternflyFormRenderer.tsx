@@ -23,9 +23,12 @@ import FormRenderer from './component/FormRenderer';
 export default class PatternflyFormRenderer extends UniformsFormRenderer {
   name: 'patternfly';
 
-  protected doRender = (schema: any): HTMLForm => {
+  protected doRender = (formName: string, schema: any): HTMLForm => {
     return {
-      html: component2String(FormRenderer, { formSchema: schema }),
+      html: component2String(FormRenderer, {
+        id: formName,
+        formSchema: schema
+      }),
       css: css
     };
   };

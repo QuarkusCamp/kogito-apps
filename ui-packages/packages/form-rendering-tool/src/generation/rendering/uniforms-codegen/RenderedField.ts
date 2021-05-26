@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-import { BaseForm } from 'uniforms';
-
-function PatternflyCodeGen(parent: any): any {
-  class _ extends parent {
-    static PatternflyCodeGen = BaseForm;
-
-    static displayName = `PatternflyCodeGen${parent.displayName}`;
-  }
-
-  return _;
+export interface RenderedField {
+  id: string;
+  name: string;
+  hooks: string;
+  element: string;
 }
-
-export default PatternflyCodeGen(BaseForm);

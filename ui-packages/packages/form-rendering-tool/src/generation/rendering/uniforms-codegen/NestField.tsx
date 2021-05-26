@@ -2,7 +2,7 @@ import React, { HTMLProps, useContext } from 'react';
 import { connectField } from 'uniforms';
 
 import { context } from 'uniforms';
-import { renderNestedInputFragmentWithContext } from './Utils';
+import { renderField, renderNestedInputFragmentWithContext } from './Utils';
 
 export type NestFieldProps = {
   error?: boolean;
@@ -14,7 +14,8 @@ export type NestFieldProps = {
   name: string;
 } & HTMLProps<HTMLDivElement>;
 
-const Nest = ({
+const Nest: React.FunctionComponent<NestFieldProps> = ({
+  id,
   children,
   error,
   errorMessage,
@@ -28,33 +29,33 @@ const Nest = ({
 }: NestFieldProps) => {
   const parentContext = useContext(context);
 
-  const getNestedFields = (): string => {
-    if (fields) {
-      return fields
-        .map(field => {
-          return renderNestedInputFragmentWithContext(
-            parentContext,
-            field,
-            itemProps,
-            disabled
-          );
-        })
-        .join('');
-    }
-    return '';
-  };
+  const nestedHooks: string[] = [];
+  const nestedElements: string[] = [];
 
-  const nestedFields = getNestedFields();
+  if (fields) {
+    fields.forEach(field => {
+      const rendered = renderNestedInputFragmentWithContext(
+        parentContext,
+        field,
+        itemProps,
+        disabled
+      );
+
+      nestedHooks.push(rendered.hooks);
+      nestedElements.push(rendered.element);
+    });
+  }
 
   const bodyLabel = label ? `<label><b>${label}</b></label>` : '';
 
-  const body = `<PatternFly.Card>
+  const nestedFieldHooks = nestedHooks.join('\n');
+  const nestedFieldElement = `<PatternFly.Card>
           <PatternFly.CardBody className="pf-c-form">
           ${bodyLabel}
-          ${nestedFields}
+          ${nestedElements.join('\n')}
           </PatternFly.CardBody></PatternFly.Card>`;
 
-  return <>{body}</>;
+  return renderField(id, name, nestedFieldHooks, nestedFieldElement);
 };
 
 export default connectField(Nest);

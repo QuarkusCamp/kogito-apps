@@ -21,6 +21,7 @@ import { FormDefinition, FormTemplate } from './Api';
 export function generateForm(definition: FormDefinition): FormTemplate {
   const template = _.template(htmlTemplate);
 
+  // @ts-ignore
   const htmlContent: string = template({
     formResources: {
       schema: definition.schema,
@@ -31,7 +32,7 @@ export function generateForm(definition: FormDefinition): FormTemplate {
   return {
     name: definition.name,
     schema: definition.schema,
-    htmlContent,
+    htmlContent: definition.html,
     resources: [
       {
         name: 'styles.css',

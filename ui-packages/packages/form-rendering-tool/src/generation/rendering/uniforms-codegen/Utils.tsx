@@ -16,21 +16,50 @@
 
 import React from 'react';
 import { Bridge } from 'uniforms';
+import decode from 'unescape';
 import FormInputs from './FormInputs';
 import NestedFormInputs from './NestedFormInputs';
 import ReactDOMServer from 'react-dom/server';
+import { RenderedField } from './RenderedField';
 
-const domParser = new DOMParser();
+export const NS_SEPARATOR = '__';
+export const FIELD_SET_PREFFIX = `set`;
 
-const parse = (content: string): string => {
-  return domParser.parseFromString(content, 'text/html').body.textContent;
+export const getFieldHook = (
+  fieldName: string
+): { name: string; setter: string } => {
+  const name = fieldName.split('.').join(NS_SEPARATOR);
+  const setter = `${FIELD_SET_PREFFIX}${NS_SEPARATOR}${name}`;
+  return {
+    name,
+    setter
+  };
+};
+export const renderField = (
+  id: string,
+  name: string,
+  hooks: string,
+  element: string
+) => {
+  const input: RenderedField = {
+    id,
+    name,
+    hooks,
+    element
+  };
+
+  return <>{JSON.stringify(input)}</>;
 };
 
-export const renderInputsFragment = (schema: Bridge): string => {
+const parse = (content: string): string => {
+  return decode(content);
+};
+
+export const renderInputsFragment = (schema: Bridge): RenderedField[] => {
   const content = ReactDOMServer.renderToString(
     React.createElement(FormInputs, { schema })
   );
-  return parse(content);
+  return JSON.parse(parse(content));
 };
 
 export const renderNestedInputFragmentWithContext = (
@@ -38,7 +67,7 @@ export const renderNestedInputFragmentWithContext = (
   field: any,
   itempProps: any,
   disabled?: boolean
-): string => {
+): RenderedField => {
   const content = ReactDOMServer.renderToString(
     React.createElement(NestedFormInputs, {
       parentContext,
@@ -47,5 +76,5 @@ export const renderNestedInputFragmentWithContext = (
       disabled
     })
   );
-  return parse(content);
+  return JSON.parse(parse(content));
 };
