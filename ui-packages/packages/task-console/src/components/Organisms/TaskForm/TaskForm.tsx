@@ -14,27 +14,10 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import _ from 'lodash';
-import {
-  AppContext,
-  GraphQL,
-  KogitoEmptyState,
-  KogitoEmptyStateType,
-  KogitoSpinner,
-  useKogitoAppContext
-} from '@kogito-apps/common';
-import {
-  ITaskConsoleContext,
-  useTaskConsoleContext
-} from '../../../context/TaskConsoleContext/TaskConsoleContext';
-import { FormSchema } from '../../../util/uniforms/FormSchema';
-import { getTaskSchemaEndPoint } from '../../../util/Utils';
+import React from 'react';
+import { GraphQL, OUIAProps } from '@kogito-apps/common';
+import ReactFormRenderer from '../ReactFormRenderer/ReactFormRenderer';
 import UserTaskInstance = GraphQL.UserTaskInstance;
-import { OUIAProps } from '@kogito-apps/common';
-import EmptyTaskForm from '../EmptyTaskForm/EmptyTaskForm';
-import TaskFormRenderer from '../TaskFormRenderer/TaskFormRenderer';
 
 interface IOwnProps {
   userTaskInstance?: UserTaskInstance;
@@ -49,105 +32,7 @@ const TaskForm: React.FC<IOwnProps & OUIAProps> = ({
   ouiaId,
   ouiaSafe
 }) => {
-  // tslint:disable: no-floating-promises
-  const context: ITaskConsoleContext<UserTaskInstance> = useTaskConsoleContext();
-  const appContext: AppContext = useKogitoAppContext();
-
-  const [loading, setLoading] = useState<boolean>(true);
-  const [stateUserTask, setStateUserTask] = useState<UserTaskInstance>();
-  const [taskFormSchema, setTaskFormSchema] = useState<FormSchema>(null);
-
-  if (!stateUserTask) {
-    if (userTaskInstance) {
-      setStateUserTask(userTaskInstance);
-    } else {
-      if (context.getActiveItem()) {
-        setStateUserTask(context.getActiveItem());
-      }
-    }
-  }
-
-  useEffect(() => {
-    loadForm();
-  }, [stateUserTask]);
-
-  const loadForm = () => {
-    if (stateUserTask) {
-      const endpoint = getTaskSchemaEndPoint(
-        stateUserTask,
-        appContext.getCurrentUser()
-      );
-
-      axios
-        .get(endpoint, {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          }
-        })
-        .then(res => {
-          if (res.status === 200) {
-            setTaskFormSchema(res.data);
-          }
-          setLoading(false);
-        })
-        .catch(er => {
-          setLoading(false);
-        });
-    }
-  };
-
-  if (stateUserTask) {
-    if (loading) {
-      return (
-        <KogitoSpinner
-          spinnerText={'Loading form for task: ' + stateUserTask.name}
-          ouiaId={(ouiaId ? ouiaId : 'task-form') + '-spinner-loading'}
-          ouiaSafe={ouiaSafe}
-        />
-      );
-    }
-
-    if (taskFormSchema) {
-      const notifySuccess = (phase: string) => {
-        onSubmitSuccess(phase);
-      };
-
-      const notifyError = (phase: string, error?: string) => {
-        onSubmitError(phase, error);
-      };
-
-      if (_.isEmpty(taskFormSchema.properties)) {
-        return (
-          <EmptyTaskForm
-            task={userTaskInstance}
-            formSchema={taskFormSchema}
-            onSubmitSuccess={notifySuccess}
-            onSubmitError={notifyError}
-          />
-        );
-      }
-
-      return (
-        <TaskFormRenderer
-          task={stateUserTask}
-          formSchema={taskFormSchema}
-          onSubmitSuccess={notifySuccess}
-          onSubmitError={notifyError}
-        />
-      );
-    }
-  }
-
-  return (
-    <KogitoEmptyState
-      type={KogitoEmptyStateType.Info}
-      title="No form to show"
-      body="Cannot find form"
-      ouiaId={(ouiaId ? ouiaId : 'task-form') + '-no-form'}
-      ouiaSafe={ouiaSafe}
-    />
-  );
+  return <ReactFormRenderer />;
 };
 
 export default TaskForm;

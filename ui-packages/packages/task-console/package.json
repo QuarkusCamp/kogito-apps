@@ -29,6 +29,7 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "@babel/standalone": "^7.14.4",
     "@kogito-apps/common": "1.0.0",
     "ajv": "6.12.2",
     "uniforms": "3.0.0",
