@@ -703,6 +703,7 @@
                 <type>test-jar</type>
             </dependency>
 
+            <!-- UI packages -->
             <dependency>
                 <groupId>org.kie.kogito</groupId>
                 <artifactId>kogito-apps-ui-packages</artifactId>
@@ -710,6 +711,7 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- Jobs Service -->
             <dependency>
                 <groupId>org.kie.kogito</groupId>
                 <artifactId>jobs-service-mongodb</artifactId>
@@ -721,6 +723,55 @@
                 <version>${project.version}</version>
                 <classifier>sources</classifier>
             </dependency>
+
+            <!-- Runtime Tools Quarkus Extension -->
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension-deployment</artifactId>
+                <version>${project.version}</version>
+                <classifier>sources</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension-deployment</artifactId>
+                <version>${project.version}</version>
+                <classifier>javadoc</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension-deployment</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension</artifactId>
+                <version>${project.version}</version>
+                <classifier>sources</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension</artifactId>
+                <version>${project.version}</version>
+                <classifier>javadoc</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>runtime-tools-quarkus-extension</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
