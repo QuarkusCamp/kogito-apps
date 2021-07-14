@@ -28,6 +28,7 @@
       ${path.to.packages}/ouia-tools/src,
       ${path.to.packages}/process-details/src,
       ${path.to.packages}/process-list/src,
+      ${path.to.packages}/runtime-tools-dev-ui-webapp/src,
       ${path.to.packages}/task-console-shared/src,
       ${path.to.packages}/task-console-webapp/src,
       ${path.to.packages}/task-console/src,
@@ -49,6 +50,7 @@
       ${path.to.packages}/ouia-tools/coverage/lcov.info,
       ${path.to.packages}/process-details/coverage/lcov.info,
       ${path.to.packages}/process-list/coverage/lcov.info,
+      ${path.to.packages}/runtime-tools-dev-ui-webapp/coverage/lcov.info,
       ${path.to.packages}/task-console-shared/coverage/lcov.info,
       ${path.to.packages}/task-console-webapp/coverage/lcov.info,
       ${path.to.packages}/task-console/coverage/lcov.info,
@@ -90,6 +92,9 @@
             </fileset>
             <fileset>
               <directory>packages/process-details/node_modules</directory>
+            </fileset>
+            <fileset>
+              <directory>packages/runtime-tools-dev-ui-webapp/node_modules</directory>
             </fileset>
             <fileset>
               <directory>packages/management-console-webapp/node_modules</directory>
