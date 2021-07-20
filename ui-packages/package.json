@@ -15,7 +15,6 @@
     "cypress:run": "lerna run cypress:run --",
     "cypress:run-management-console": "cypress run --project ./packages/management-console",
     "cypress:run-management-console-webapp": "cypress run --project ./packages/management-console-webapp",
-    "cypress:run-task-console": "cypress run --project ./packages/task-console",
     "cypress:run-task-console-webapp": "cypress run --project ./packages/task-console-webapp",
     "cypress:run-runtime-tools-dev-ui-webapp": "cypress run --project ./packages/runtime-tools-dev-ui-webapp",
     "locktt": "locktt",
@@ -30,7 +29,6 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
     "@kogito-apps/management-console": "file:packages/management-console",
-    "@kogito-apps/task-console": "file:packages/task-console",
     "@kogito-tooling/envelope": "^0.8.6",
     "@kogito-tooling/envelope-bus": "^0.8.6",
     "@patternfly/react-core": "4.84.4",
